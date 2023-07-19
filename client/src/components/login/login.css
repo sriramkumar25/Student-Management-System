@@ -1,0 +1,27 @@
+.form-control {
+  border-color: #198754;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: rgba(255, 255, 255, 0.8);
+}
+.container-fluid {
+  background-color: #343a40;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+button {
+  margin: auto;
+}
+.text-successs {
+  color: rgb(192, 192, 192);
+}
+
+.form-control::placeholder {
+  color: rgb(120, 120, 120);
+}
