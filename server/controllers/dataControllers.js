@@ -1,18 +1,17 @@
 const { getDoc, doc, collection } = require("firebase/firestore");
 const { students } = require("../models/users");
+const xlsx = require("xlsx");
+const FileReader = require("filereader");
 
 module.exports.getStudentData = async (req, res) => {
-  const docRef = doc(students, req.body.roll);
-  const docSnap = await getDoc(docRef);
-  if (!docSnap.exists()) {
-    return res.json({ msg: "Student not found" });
-  }
-  const data = docSnap.data();
-  delete data["password"];
-  res.json(data);
+  const detailRef = doc(students, req.body.roll);
+  const snap1 = await getDoc(detailRef);
 };
 
-module.exports.uploadStudentData = (req, res) => {};
+module.exports.uploadStudentData = (req, res) => {
+  console.log("inside upload");
+  console.log(req.body);
+};
 
 module.exports.test = async (req, res) => {
   const markRef = collection(students, "12BB19", marks);

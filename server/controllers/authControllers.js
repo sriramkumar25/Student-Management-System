@@ -1,5 +1,6 @@
 const { doc, getDoc } = require("firebase/firestore");
 const { teachers, students } = require("../models/users");
+const jwt = require("jsonwebtoken");
 
 module.exports.studentLogin = async (req, res) => {
   const username = req.body.username;
@@ -12,16 +13,22 @@ module.exports.studentLogin = async (req, res) => {
     if (data.roll !== username || data.password !== password) {
       return res.status(401).send("Username or password is wrong");
     }
-    req.user = {
-      userType: "student",
-      isLogged: true,
-      roll: data.roll,
-    };
+    const signedKey = jwt.sign(
+      {
+        userType: "student",
+        isLogged: true,
+        roll: data.roll,
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1h" }
+    );
     return res.status(200).json({
-      userType: "student",
-      isLogged: true,
+      token: signedKey,
       roll: data.roll,
+      msg: "Student logged in",
     });
+  } else {
+    return res.status(401).send("User not available!");
   }
 };
 
@@ -36,15 +43,17 @@ module.exports.teacherLogin = async (req, res) => {
     if (data.name !== name || data.password !== password) {
       return res.status(401).send("Password is wrong");
     }
-    req.user = {
-      userType: "teacher",
-      isLogged: true,
-      name: data.name,
-    };
+    const signedKey = jwt.sign(
+      {
+        userType: "teacher",
+        isLogged: true,
+        name: data.name,
+      },
+      process.env.JWT_SECRET_KEY,
+      { expiresIn: "1h" }
+    );
     return res.status(200).json({
-      userType: "teacher",
-      isLogged: true,
-      name: data.name,
+      token: signedKey,
     });
   } else {
     res.status(401).send("User not allowed to login");
@@ -52,13 +61,7 @@ module.exports.teacherLogin = async (req, res) => {
 };
 
 module.exports.checkLogin = (req, res) => {
-  if (req.user && req.user.isLogged) {
-    return res.json({
-      userType: req.user.userType,
-      isLogged: true,
-      username: req.user.username,
-    });
-  } else {
-    return res.json({ isLogged: false, msg: "User not logged in yet" });
-  }
+  console.log(req.body);
 };
+
+module.exports.logout = () => {};

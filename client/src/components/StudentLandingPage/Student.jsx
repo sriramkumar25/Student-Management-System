@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Student() {
   const { currentUser } = useAuth();
@@ -10,8 +11,18 @@ function Student() {
     if (!currentUser) {
       navigate("/login");
     }
+    console.log(currentUser);
     axios
-      .get("student/data", { roll: currentUser.roll })
+      .post(
+        "student/data",
+        { roll: currentUser.roll },
+
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      )
       .then((response) => response.json())
       .then((data) => setStudent(data))
       .catch((err) => console.log(err));
@@ -23,7 +34,7 @@ function Student() {
     //style it like a table of contents
     //it should be able to map with all the contents of all the tests like, class test1, unit test 1 ,etc.
     //return it properly with the use of 'map()' function
-    <></>
+    <>I am a student thaayoli</>
   );
 }
 

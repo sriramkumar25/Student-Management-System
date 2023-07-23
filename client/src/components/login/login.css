@@ -6,6 +6,7 @@
   justify-content: center;
   flex-direction: column;
   color: rgba(255, 255, 255, 0.8);
+  border-top-left-radius: 0%;
 }
 .container-fluid {
   background-color: #343a40;
@@ -14,9 +15,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-top-left-radius: 0%;
 }
 button {
   margin: auto;
+  margin-top: 6px;
 }
 .text-successs {
   color: rgb(192, 192, 192);
@@ -24,4 +27,15 @@ button {
 
 .form-control::placeholder {
   color: rgb(120, 120, 120);
+}
+.student-btn {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.teacher-btn {
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0%;
+  border-bottom-right-radius: 0%;
 }

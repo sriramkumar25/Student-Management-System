@@ -5,7 +5,9 @@ const teacherRouter = require("./routers/teacherRouter");
 const studentRouter = require("./routers/studentRouter");
 const { checkLogin } = require("./controllers/authControllers");
 const { test } = require("./controllers/dataControllers");
+const bodyParser = require("body-parser");
 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
     credentials: true,
@@ -16,7 +18,7 @@ app.use(
 app.use("/teacher", teacherRouter);
 app.use("/student", studentRouter);
 
-app.get("/login", checkLogin);
+app.post("/login", checkLogin);
 
 app.get("/test", test);
 

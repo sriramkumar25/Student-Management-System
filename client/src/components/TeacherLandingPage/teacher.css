@@ -1,0 +1,31 @@
+.container-fluid {
+  background-color: #343a40;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-input {
+  display: none;
+}
+.inp-lab {
+  width: 10rem;
+  height: 10rem;
+  background-image: url("./upload.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+h2 {
+  font-family: "Oswald", sans-serif;
+}
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+.ale {
+  display: none;
+}

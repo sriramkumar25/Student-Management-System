@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
@@ -9,11 +9,25 @@ function Login() {
     username: "",
     password: "",
   });
+  const [errMsg, setErrMsg] = useState();
+
   const { userType, setUserType, login, currentUser } = useAuth();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (currentUser && currentUser.isLogged) {
+      navigate(`/${userType}`);
+    }
+  }, []);
   function handleSubmit(e) {
     e.preventDefault();
-    login(input, () => navigate(`/${userType}`));
+    login(input, (msg) => {
+      if (msg === "success") {
+        setErrMsg("");
+        return navigate(`/${userType}`);
+      } else {
+        setErrMsg(msg);
+      }
+    });
   }
 
   return (
@@ -23,8 +37,8 @@ function Login() {
           <button
             className={
               userType === "teacher"
-                ? "btn btn-primary"
-                : "btn btn-outline-primary"
+                ? "btn btn-primary teacher-btn"
+                : "btn btn-outline-primary teacher-btn"
             }
             onClick={() => setUserType("teacher")}
           >
@@ -34,8 +48,8 @@ function Login() {
           <button
             className={
               userType === "teacher"
-                ? "btn btn-outline-primary"
-                : "btn btn-primary"
+                ? "btn btn-outline-primary student-btn"
+                : "btn btn-primary student-btn"
             }
             onClick={() => setUserType("student")}
           >
@@ -83,6 +97,7 @@ function Login() {
             <button type="submit" className="btn btn-outline-success">
               Login
             </button>
+            {errMsg && <p className="text-danger">{errMsg}</p>}
           </form>
         </div>
       </div>

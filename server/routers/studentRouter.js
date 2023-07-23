@@ -7,6 +7,6 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 router.post("/login", studentLogin);
 
-router.get("/data", getStudentData);
+router.post("/data", getStudentData);
 
 module.exports = router;
