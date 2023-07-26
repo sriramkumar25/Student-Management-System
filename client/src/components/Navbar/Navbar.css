@@ -1,0 +1,22 @@
+.nav-container {
+  width: 100vw;
+  height: 4rem;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.school-name {
+  text-align: center;
+}
+
+.branch {
+  font-size: 1.8rem;
+}
+
+.flex-cont {
+  padding-top: 1rem;
+  height: 100%;
+  width: 100%;
+}

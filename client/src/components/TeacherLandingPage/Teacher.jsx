@@ -3,7 +3,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./teacher.css";
-import * as xlsx from "xlsx";
 
 function Teacher() {
   const [file, setFile] = useState();
@@ -23,6 +22,7 @@ function Teacher() {
       console.log("value inside parse", a);
       setData(a);
     });
+    console.log("clicks: ", click);
     if (click === 2) {
       axios
         .post("teacher/upload", data, {
@@ -31,7 +31,7 @@ function Teacher() {
           },
         })
         .then(() => {
-          console.log("success");
+          setSuccessMsg("Success");
         });
     }
   }
@@ -42,7 +42,13 @@ function Teacher() {
         <div className="ale"></div>
         <form onSubmit={handleSubmit} className="form-control">
           <div className="text-success p-3">
-            <h2>Upload your File</h2>
+            <h2>Upload your File(Please click the Submit button Twice)</h2>
+            <h2>
+              Clicks: {click}
+              {click === 1 && (
+                <span className="text-warning">{"   "}Click again!</span>
+              )}
+            </h2>
           </div>
           <label className="inp-lab" htmlFor="marks"></label>
 
@@ -52,22 +58,23 @@ function Teacher() {
             name="marksExcel"
             id="marks"
             accept=".xlsx"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e) => {
+              setClick(0);
+              setFile(e.target.files[0]);
+            }}
           />
           <p>File: {(file && file.name) || "No file uploaded"}</p>
           <button
             type="submit"
             onClick={() => {
-              setClick(() => {
-                return click + 1;
-              });
+              setClick(click + 1);
             }}
             className="btn btn-outline-success"
           >
             Submit document
           </button>
           {successMsg && (
-            <p className="text-success">File Uploaded Successfully!</p>
+            <p className="text-warning">File Uploaded Successfully!</p>
           )}
         </form>
       </div>

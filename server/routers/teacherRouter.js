@@ -7,10 +7,6 @@ const { uploadStudentData } = require("../controllers/dataControllers");
 router.use(bodyParser.urlencoded({ extended: true }));
 router.post("/login", teacherLogin);
 
-router.post("/upload", (req, res) => {
-  console.log("request received in upload route");
-  console.log(req.body);
-  return res.status(200).send("okay");
-});
+router.post("/upload", uploadStudentData);
 
 module.exports = router;

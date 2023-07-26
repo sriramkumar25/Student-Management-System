@@ -1,30 +1,31 @@
 const { doc, getDoc } = require("firebase/firestore");
 const { teachers, students } = require("../models/users");
 const jwt = require("jsonwebtoken");
+const { db } = require("./firebase");
 
 module.exports.studentLogin = async (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
+  const RollNo = req.body.username;
+  const Password = req.body.password;
   const userType = req.body.userType;
-  const docRef = doc(students, username);
+  const docRef = doc(db, "students", RollNo);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists() && userType === "student") {
     const data = docSnap.data();
-    if (data.roll !== username || data.password !== password) {
+    if (data.RollNo !== RollNo || data.Password !== Password) {
       return res.status(401).send("Username or password is wrong");
     }
     const signedKey = jwt.sign(
       {
         userType: "student",
         isLogged: true,
-        roll: data.roll,
+        roll: data.RollNo,
       },
       process.env.JWT_SECRET_KEY,
       { expiresIn: "1h" }
     );
     return res.status(200).json({
       token: signedKey,
-      roll: data.roll,
+      roll: data.RollNo,
       msg: "Student logged in",
     });
   } else {
@@ -60,8 +61,6 @@ module.exports.teacherLogin = async (req, res) => {
   }
 };
 
-module.exports.checkLogin = (req, res) => {
-  console.log(req.body);
-};
+module.exports.checkLogin = (req, res) => {};
 
 module.exports.logout = () => {};
